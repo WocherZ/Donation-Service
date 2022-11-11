@@ -11,7 +11,7 @@ public class HtmlController {
     @GetMapping("/home")
     public ModelAndView home(Map<String, Object> model) {
         // ...
-        return new ModelAndView("homes", model);
+        return new ModelAndView("home", model);
     }
 
     @GetMapping("/donation")
