@@ -1,30 +1,66 @@
 package com.example.spring_test.controllers;
 
+import com.example.spring_test.models.User;
+import com.example.spring_test.repository.UserRepository;
+import com.example.spring_test.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+class UserRegistrationData {
+    public String nickname;
+    public String login;
+    public String password;
+}
+
+class UserLoginData {
+    public String login;
+    public String password;
+}
 
 @RestController
+@RequestMapping("/api")
 public class RestApiController {
+    @Autowired private UserService userService;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create() {
-        // ...
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/registration")
+    public ResponseEntity<?> register(@RequestBody UserRegistrationData userRegistrationData) {
+        System.out.println("Post registration");
+        if (userService.isRegisteredLogin(userRegistrationData.login)) {
+            System.out.println("Уже зареган");
+            return new ResponseEntity<>(new HashMap<>(), HttpStatus.CONFLICT);
+        } else {
+            System.out.println("Не зареган - регаем");
+            // ...
+            System.out.println(userRegistrationData.login + " " + userRegistrationData.password + " " + userRegistrationData.nickname);
+            userService.addUser(
+                    userRegistrationData.nickname,
+                    userRegistrationData.login,
+                    userRegistrationData.password
+            );
+            return new ResponseEntity<>(new HashMap<>(), HttpStatus.OK);
+        }
     }
 
-    @GetMapping("/getEntity")
-    public ResponseEntity<?> getEntity() {
-        // ...
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserLoginData userLoginData) {
+        System.out.println("Post login");
+        User loginedUser = userService.findByLoginAndPassword(userLoginData.login, userLoginData.password);
 
-    @GetMapping("/getEntity/{id}")
-    public ResponseEntity<?> getEntityById(@PathVariable(name = "id") int id) {
-        // ...
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (loginedUser != null) {
+            System.out.println("Логиним");
+            Map<String, Long> map = new HashMap<>();
+            map.put("id", loginedUser.getId());
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        } else {
+            System.out.println("Ошибка в данных логина");
+            Map<String, Boolean> map = new HashMap<>();
+            map.put("error", true);
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
     }
 }

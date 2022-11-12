@@ -1,0 +1,23 @@
+.menu {
+    color: red;
+    border-radius: 10px;
+}
+
+.menu:hover {
+    color: red;
+    cursor: pointer;
+    background-color: white;
+}
+
+.menu:focus {
+    color: red;
+    opacity: 100%;
+}
+
+.nav-link {
+    color: red;
+}
+
+h1 {
+    text-align: center;
+}
