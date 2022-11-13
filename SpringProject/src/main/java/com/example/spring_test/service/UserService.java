@@ -5,10 +5,7 @@ import com.example.spring_test.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -30,5 +27,27 @@ public class UserService {
     public User findByLoginAndPassword(String login, String password) {
         Optional<User> foundUser = userRepository.findAll().stream().filter((user) -> Objects.equals(user.getLogin(), login) && Objects.equals(user.getPassword(), password)).findAny();
         return foundUser.orElse(null);
+    }
+
+    public User findById(Long id) {
+        Optional<User> user = userRepository.findById(Math.toIntExact(id));
+        return user.orElse(null);
+    }
+
+    public List<User> getUsersList() {
+        return userRepository.findAll();
+    }
+
+    public Map<String, String> getUserDescription(Long id) {
+        Optional<User> user = userRepository.findById(Math.toIntExact(id));
+        if (user.isPresent()) {
+            Map<String, String> resultMap = new HashMap<>();
+            resultMap.put("aboutUser" , user.get().getAboutUser());
+            resultMap.put("streamContent", user.get().getStreamContent());
+            resultMap.put("channelDescription", user.get().getChannelDescription());
+            return resultMap;
+        } else {
+            return null;
+        }
     }
 }

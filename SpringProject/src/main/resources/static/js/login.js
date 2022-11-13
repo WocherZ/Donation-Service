@@ -7,9 +7,16 @@ async function logUser(login, password) {
             'Content-Type': 'application/json',
             'charset': 'utf-8',
         },
-    })
-    const json = await request.json()
-    return json
+    }).then (
+        response => {
+            if (response.status === 200) {
+                return response.json()
+            }
+            else {
+                throw new Error("Ошибка входа")
+            }
+        }
+    )
 }
 
 window.onload = function () {
@@ -20,19 +27,12 @@ window.onload = function () {
         const password = form.elements.pasword.value
         console.log(login, password)
         logUser(login, password).then(
-            value => {
-                console.log(value)
-                if (value != '') {
-                    document.cookie = `id=${value['id']}`
-                    window.location.href = '/profile'
-                }
-                else {
-                    alert("Ошибка входа, попробуйте еще")
-                }
-            }
-        ).catch(
-            v => {
-                alert('Ошибка входа. Попробуйте еще')
+            function(value) {
+                sessionStorage.setItem('id', `${value['id']}`)
+                window.location.href = '/profile'
+            },
+            function(error) {
+                alert(error)
             }
         )
     })

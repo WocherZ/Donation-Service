@@ -13,15 +13,11 @@
 <body>
 <nav class="navbar navbar-expand bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand menu active" href="/home">AlfaDonations</a>
+        <a class="navbar-brand logo" href="/home"><img src="../images/logo.png"></a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link menu" href="/profile">Личный кабинет</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu" href="/analytics">Статистика</a>
-                </li>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="menu">
+            </ul>
+            <ul class="navbar-nav my-2 my-lg-2" id="right_menu">
             </ul>
         </div>
     </div>
@@ -29,92 +25,42 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col justify-content-center col">
-
-        </div>
-    </div>
-    <div class="row">
         <div class="col col-4 donation-list">
             <h1>Список донатеров</h1>
             <div class="container" id="donate-list">
-                <ol class="donate-list">
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
-                    <li class="donator">nickname</li>
+                <ol class="donate-list" id="donators">
+<!--                    <li class="donator">user1</li>-->
                 </ol>
             </div>
         </div>
         <div class="col col-4 justify-content-center">
             <h1>Собрано</h1>
             <div class="col d-grid">
-                <button class="justify-content-start btn btn-danger add-aim">Добавить цель</button>
+                <button class="justify-content-start btn btn-danger add-aim" id="add_goal">Добавить цель</button>
             </div>
-            <ul>
-                <li>
-                    <h3 class="justify-content-center">На еду</h3>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
-                             style="width: 40%"
-                             aria-valuemin="0"
-                             aria-valuemax="100">
-                        </div>
-                    </div>
-                    <p class="amount">40%(Максимум - 4000р)</p>
-                </li>
-                <li>
-                    <h3 class="justify-content-center">На машину</h3>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
-                             style="width: 10%"
-                             aria-valuemin="0"
-                             aria-valuemax="100">
-                        </div>
-                    </div>
-                    <p class="amount">10%(Максимум - 4000000р)</p>
-                </li>
+            <ul id="goal-list">
+<!--                <li>-->
+<!--                    <h3 class="justify-content-center">На еду</h3>-->
+<!--                    <div class="progress">-->
+<!--                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"-->
+<!--                             style="width: 40%"-->
+<!--                             aria-valuemin="0"-->
+<!--                             aria-valuemax="100">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <p class="amount">40%(Максимум - 4000р)</p>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <h3 class="justify-content-center">На машину</h3>-->
+<!--                    <div class="progress">-->
+<!--                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"-->
+<!--                             style="width: 10%"-->
+<!--                             aria-valuemin="0"-->
+<!--                             aria-valuemax="100">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <p class="amount">10%(Максимум - 4000000р)</p>-->
+<!--                </li>-->
             </ul>
         </div>
         <div class="col col-4">
@@ -131,6 +77,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.3/js/OverlayScrollbars.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <script type="text/javascript" src="../js/scrollbar.js"></script>
+<script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js"></script>
 <script type="text/javascript" src="../js/graphics.js"></script>
+<script type="text/javascript" src="../js/menu.js"></script>
+<script type="text/javascript" src="../js/analytics.js"></script>
 </body>
 </html>

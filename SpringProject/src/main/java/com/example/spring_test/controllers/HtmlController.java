@@ -49,4 +49,9 @@ public class HtmlController {
         // ...
         return new ModelAndView("analytics", model);
     }
+
+    @GetMapping("/out")
+    public ModelAndView logout(Map<String, Object> model) {
+        return new ModelAndView("logout", model);
+    }
 }

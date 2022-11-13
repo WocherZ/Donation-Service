@@ -1,9 +1,15 @@
 package com.example.spring_test.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "donation")
+@Getter
+@Setter
 public class Donation {
     @Id
     @Column(name = "id")
@@ -18,6 +24,10 @@ public class Donation {
 
     @Column(name = "nickname")
     private String userNickname;
+
+    @Column(name = "date")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

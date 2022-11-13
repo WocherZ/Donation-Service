@@ -28,11 +28,10 @@ window.onload = function () {
         console.log(login, password, nickname)
         regUser(login, password, nickname).then(
             function(value) {
-                console.log(value)
                 window.location.href = '/login'
             },
             function(error) {
-                alert("My error!!!")
+                alert(error)
             }
         )
     })

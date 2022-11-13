@@ -1,36 +1,96 @@
-const canvas_graph = document.getElementById('donations-graph');
-const graphs = new Chart(canvas_graph, {
-    type: 'line',
-    data: {
-        labels: [1,2,3,4,5,6],
-        datasets: [{
-            label: 'Донаты',
-            data: [1,2,3,7,7,3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
+async function getDonation(id) {
+    await fetch(`/api/user/data/${id}`).then(
+        response => {
+            if (response.status == 200) {
+                return response.json()
+            } else {
+                throw new Error('Ошибка получения донатов')
             }
         }
+    )
+}
+
+function getAmounts(donates) {
+    let amounts = {}
+    for (let d of donates) {
+        let date = _.slice(d['date'].split(' ')[0].split('.'), 1, 3)
+        if (_.has(amounts, date)) {
+            amounts[date] += d['amount']
+        } else {
+            amounts[date] = d['amount']
+        }
     }
-});
+    // let amounts_arr = []
+    // for (let a of amounts) {
+    //     amounts_arr.push({'date': a, 'amount': amounts[a]})
+    // }
+    return amounts
+}
+
+function getMonths(donates) {
+    let months = []
+    for (let d of donates) {
+        let date = _.slice(d['date'].split(' ')[0].split('.'), 1, 3)
+        if (!months.includes(date)) {
+            months.push(date)
+        }
+    }
+    months.sort(function (a, b) {
+        let y1 = a.split('.')[1]
+        let y2 = b.split('.')[1]
+        let m1 = a.split('.')[0]
+        let m2 = b.split('.')[0]
+        if (y1 != y2) {
+            return y1 - y2
+        } else {
+            return m1 - m2
+        }
+    })
+    return _.slice(months, 0, 12)
+}
+
+
+window.addEventListener('load', function() {
+    if (sessionStorage.getItem('id') != null) {
+        const id = sessionStorage.getItem('id')
+        getDonation(id).then(
+            function(donates) {
+                let months = getMonths(donates)
+                let amounts = getAmounts(donates)
+                let only_amounts = []
+                for (let m of months) {
+                    only_amounts.push(amounts[m])
+                }
+                const canvas_graph = document.getElementById('donations-graph');
+                const graphs = new Chart(canvas_graph, {
+                    type: 'line',
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Донаты',
+                            data: only_amounts,
+                            borderColor: [
+                                'black',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            },
+            function(error) {
+                alert(error)
+            }
+        )
+    }
+    else {
+    }
+})
+
 

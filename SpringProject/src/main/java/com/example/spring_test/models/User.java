@@ -23,4 +23,19 @@ public class User {
 
     @Column(name = "password", length = 2000)
     private String password;
+
+    @Column(name = "urlWidget")
+    private String urlWidget;
+
+    @Column(name = "urlDonateForm")
+    private String urlDonateForm;
+
+    @Column(name = "about_user")
+    private String aboutUser;
+
+    @Column(name = "stream_content")
+    private String streamContent;
+
+    @Column(name = "channel_description")
+    private String channelDescription;
 }
