@@ -60,4 +60,14 @@ public class HtmlController {
     public ModelAndView user(Map<String, Object> model) {
         return new ModelAndView("user", model);
     }
+
+    @GetMapping("/add_goal")
+    public ModelAndView add_goal(Map<String, Object> model) {
+        return new ModelAndView("add_goal", model);
+    }
+
+    @GetMapping("/users")
+    public ModelAndView userList(Map<String, Object> model) {
+        return new ModelAndView("user_list", model);
+    }
 }

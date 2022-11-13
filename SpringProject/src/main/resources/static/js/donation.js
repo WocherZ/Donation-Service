@@ -6,16 +6,9 @@ async function sendDonation(key, nickname, msg, amount, goalName) {
             'Content-Type': 'application/json',
             'charset': 'utf-8',
         },
-    }).then (
-        response => {
-            if (response.status === 200) {
-                return response.json()
-            }
-            else {
-                throw new Error("Ошибка при отправке доната")
-            }
-        }
-    )
+    })
+    const json = request.json()
+    return json
 }
 
 async function getGoals(id) {

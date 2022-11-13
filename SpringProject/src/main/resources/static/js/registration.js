@@ -6,16 +6,9 @@ async function regUser(login, nickname, password) {
             'Content-Type': 'application/json',
             'charset': 'utf-8',
         },
-    }).then (
-        response => {
-            if (response.status === 200) {
-                return response.json()
-            }
-            else {
-                throw new Error("Ошибка регистрации")
-            }
-        }
-    )
+    })
+    const json = await request.json()
+    return json
 }
 
 window.onload = function () {
@@ -26,7 +19,7 @@ window.onload = function () {
         const password = form.elements.pass_word.value
         const nickname = form.elements.nick_name.value
         console.log(login, password, nickname)
-        regUser(login, password, nickname).then(
+        regUser(login, nickname, password).then(
             function(value) {
                 window.location.href = '/login'
             },

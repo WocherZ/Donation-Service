@@ -18,7 +18,7 @@ public class DonationService {
 
     public List<Donation> findAllDonationsById(Long id) {
         List<Donation> donations = new ArrayList<>();
-        donations = donations.stream().filter((donation -> Objects.equals(donation.getUser_id().getId(), id))).toList();
+        donations = donationRepository.findAll().stream().filter((donation -> Objects.equals(donation.getUser_id().getId(), id))).toList();
         return donations;
     }
 
@@ -26,7 +26,7 @@ public class DonationService {
         Donation donation = new Donation();
         donation.setText(text);
         donation.setAmount(amount);
-        donation.setUserNickname(userNickName);
+        donation.setUserNickName(userNickName);
         donation.setCollection_id(collection);
         donation.setUser_id(user_id);
         donationRepository.save(donation);

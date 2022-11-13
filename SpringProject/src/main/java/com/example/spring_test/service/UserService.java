@@ -30,16 +30,17 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        Optional<User> user = userRepository.findById(Math.toIntExact(id));
+        Optional<User> user = userRepository.findById(id);
         return user.orElse(null);
     }
 
     public List<User> getUsersList() {
+
         return userRepository.findAll();
     }
 
     public Map<String, String> getUserDescription(Long id) {
-        Optional<User> user = userRepository.findById(Math.toIntExact(id));
+        Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             Map<String, String> resultMap = new HashMap<>();
             resultMap.put("nickname", user.get().getNickname());
@@ -51,4 +52,10 @@ public class UserService {
             return null;
         }
     }
+
+    public void saveUpdatesUser(User user) {
+        userRepository.save(user);
+    }
+
+
 }

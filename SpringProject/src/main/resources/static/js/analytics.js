@@ -1,39 +1,32 @@
 async function getDonation(id) {
-    await fetch(`/api/user/data/${id}`).then(
-        response => {
-            if (response.status == 200) {
-                return response.json()
-            } else {
-                throw new Error('Ошибка получения донатов')
-            }
-        }
-    )
+    const request = await fetch(`/api/user/data/${id}`)
+    const json = await request.json()
+    return json
 }
 
 async function getGoals(id) {
-    await fetch(`/api/user/${id}/goals`).then(
-        response => {
-            if (response.status == 200) {
-                return response.json()
-            } else {
-                throw new Error('Ошибка получения целей')
-            }
-        }
-    )
+    const request = await fetch(`/api/user/${id}/goals`)
+    const json = await request.json()
+    return json
 }
 
 
 function getDonators(donates) {
+    console.log(donates)
     let users = {}
-    for (let d in donates) {
+    for (let d of donates) {
+        console.log(d)
         if (_.has(users, d['userNickName'])) {
-            users[d['userNickName']] += d['amount']
+            users.d['userNickName'] += d['amount']
         } else {
+            console.log(d['userNickName'])
             users[d['userNickName']] = d['amount']
         }
     }
+    console.log(users)
     let users_array = []
-    for (let k of users) {
+    for (let k in users) {
+        console.log(k)
         users_array.push({'nick_name': k, 'amount': users[k]})
     }
     users_array.sort(function (a, b) {
@@ -58,16 +51,16 @@ function getAmounts(donates) {
 function getMonths(donates) {
     let months = []
     for (let d of donates) {
-        let date = _.slice(d['date'].split(' ')[0].split('.'), 1, 3)
+        let date = _.slice(d['date'].split(' ')[0].split('-'), 1, 3)
         if (!months.includes(date)) {
             months.push(date)
         }
     }
     months.sort(function (a, b) {
-        let y1 = a.split('.')[1]
-        let y2 = b.split('.')[1]
-        let m1 = a.split('.')[0]
-        let m2 = b.split('.')[0]
+        let y1 = a.toString().split('-')[1]
+        let y2 = b.toString().split('-')[1]
+        let m1 = a.toString().split('-')[0]
+        let m2 = b.toString().split('-')[0]
         if (y1 != y2) {
             return y1 - y2
         } else {
@@ -81,9 +74,11 @@ function getMonths(donates) {
 window.addEventListener('load', function () {
     if (sessionStorage.getItem('id') != null) {
         const id = sessionStorage.getItem('id')
-        Promise.all(getDonation(id), getGoals(id)).then(
+        Promise.all([getDonation(id), getGoals(id)]).then(
             function (values) {
                 let donators = getDonators(values[0])
+                console.log(values[0])
+                console.log(donators)
                 let goals = values[1]
                 // let months = getMonths(values[0])
                 // let amounts = getAmounts(values[0])
@@ -105,22 +100,19 @@ window.addEventListener('load', function () {
                                     <h3 class="justify-content-center">${g['name']}</h3>
                                     <div class="progress">
                                     <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
-                                         style="width: ${g['currentAmount']/g['limitAmount']}%"
+                                         style="width: ${_.floor(g['currentAmount'] * 100 /g['limitAmount'])}%"
                                          aria-valuemin="0"
                                          aria-valuemax="100">
                                     </div>
                                     </div>
-                                    <p class="amount">${g['currentAmount']/g['limitAmount']}%(Максимум - ${g['limitAmount']}р)</p>
+                                    <p class="amount">${_.floor(g['currentAmount'] * 100 /g['limitAmount'])}%(Максимум - ${g['limitAmount']}р)</p>
                                     </li>`
                     goals_list.appendChild(li)
                 }
-                let add_goal = document.getElementById('')
+                let add_goal = document.getElementById('add_goal')
                 add_goal.addEventListener('click', function() {
                     window.location.href = `/add_goal`
                 })
-            },
-            function (error) {
-                alert(error)
             }
         )
 

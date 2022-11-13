@@ -23,7 +23,7 @@ public class Donation {
     private Double amount;
 
     @Column(name = "nickname")
-    private String userNickname;
+    private String userNickName;
 
     @Column(name = "date")
     @GeneratedValue(strategy = GenerationType.AUTO)

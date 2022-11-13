@@ -1,14 +1,7 @@
 async function getUsers() {
-    await fetch('/api/users').then(
-        response => {
-            if (response.status == 200) {
-                return response.json()
-            }
-            else {
-                throw new Error('Ошибка получения пользователей')
-            }
-        }
-    )
+    const request = await fetch('/api/users')
+    const json = request.json()
+    return json
 }
 
 
@@ -26,16 +19,23 @@ window.addEventListener('load', function () {
     users.children = null
     getUsers().then(
         us => {
-            let search = document.getElementById('search')
             for (let u of us) {
                 let li = document.createElement('li')
                 li.innerHTML = `<li class="user-list"><a href="user/${u['id']}">${u['nickname']}</a></li> `
                 users.appendChild(li)
             }
-            search.addEventListener('change', setTimeout(
-                function () {
-                    users.innerHTML = ''
-                    users.children = null
+        },
+        error => {
+            alert(error)
+        }
+    )
+    let search = document.getElementById('search')
+    search.addEventListener('change', setTimeout(
+        function () {
+            users.innerHTML = ''
+            users.children = null
+            getUsers().then(
+                us => {
                     for (let u of us) {
                         if (u['nickname'].toLowerCase().includes(search.value.toLowerCase())) {
                             let li = document.createElement('li')
@@ -43,9 +43,11 @@ window.addEventListener('load', function () {
                             users.appendChild(li)
                         }
                     }
-                }, 500
-            ))
-        }
-    )
-
+                },
+                error => {
+                    alert(error)
+                }
+            )
+        }, 500
+    ))
 })

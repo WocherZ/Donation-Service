@@ -7,16 +7,9 @@ async function logUser(login, password) {
             'Content-Type': 'application/json',
             'charset': 'utf-8',
         },
-    }).then (
-        response => {
-            if (response.status === 200) {
-                return response.json()
-            }
-            else {
-                throw new Error("Ошибка входа")
-            }
-        }
-    )
+    })
+    const json = request.json()
+    return json
 }
 
 window.onload = function () {

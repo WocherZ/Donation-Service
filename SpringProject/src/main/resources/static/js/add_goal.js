@@ -1,38 +1,30 @@
 async function addGoal(id, name, limitAmount) {
-    await fetch(`/api/user/${id}/goals`, {
+    const request = await fetch(`/api/user/${id}/goals`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'charset': 'utf-8',
         },
         body: JSON.stringify({name: name, limitAmount: limitAmount})
-    }).then(
-        response => {
-            if (response.status == 200) {
-                return response.json()
-            }
-            else {
-                throw new Error('Ошибка добавления цели')
-            }
-        }
-    )
+    })
+    const json = await request.json()
+    return json
 }
 
 window.addEventListener('load', function() {
     if (sessionStorage.getItem('id') != null) {
         const id = sessionStorage.getItem('id')
         let form = document.getElementById('goalform')
-        form.addEventListener('submit', function () {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault()
             let name = form.elements.goal_name.value
             let limit = form.elements.goal_limit.value
             if (name != '' && limit != '') {
                 addGoal(id, name, limit).then(
-                    function (val) {
-                        alert('Цель добавлена успешно')
+                    val => {
+                        console.log("******")
+                        //alert('Цель добавлена успешно')
                         window.location.href = '/analytics'
-                    },
-                    function (error) {
-                        alert(error)
                     }
                 )
             }

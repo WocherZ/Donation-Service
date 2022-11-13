@@ -22,6 +22,7 @@ public class CollectionService {
         collection.setLimitAmount(limitAmount);
         collection.setName(name);
         collection.setUser_id(userService.findById(user_id));
+        collection.setCurrentAmount(0.0);
         collectionRepository.save(collection);
     }
     public List<Collection> findCollectionsByUserId(Long id) {

@@ -1,13 +1,7 @@
 async function getDonation(id) {
-    await fetch(`/api/user/data/${id}`).then(
-        response => {
-            if (response.status == 200) {
-                return response.json()
-            } else {
-                throw new Error('Ошибка получения донатов')
-            }
-        }
-    )
+    const request = await fetch(`/api/user/data/${id}`)
+    const json = request.json()
+    return json
 }
 
 function getAmounts(donates) {

@@ -1,33 +1,20 @@
 async function getUser(id) {
-    const request = await fetch(`/api/user/${id}`).then(
-        response => {
-            if (response.status == 200) {
-                return response.json()
-            } else {
-                throw new Error("Ошибка получения пользователя")
-            }
-        }
-    )
+    const request = await fetch(`/api/user/${id}`)
+    const json = await request.json()
+    return json
 }
 
 async function setInfo(id, aboutUser, streamContent, channelDescription) {
-    const response = await fetch(`/api/user/${id}/info`, {
+    const request = await fetch(`/api/user/${id}/info`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'charset': 'utf-8',
         },
         body: JSON.stringify({aboutUser: aboutUser, streamContent: streamContent, channelDescription: channelDescription})
-    }).then(
-        response => {
-            if (response.status == 200) {
-                return response.json()
-            }
-            else {
-                throw new Error('Ошибка изменения информации')
-            }
-        }
-    )
+    })
+    const json = await request.json()
+    return json
 }
 
 window.addEventListener('load', function () {
@@ -35,7 +22,9 @@ window.addEventListener('load', function () {
         const id = sessionStorage.getItem('id')
         getUser(id).then(
             function (user) {
+                console.log(user)
                 const login = user['login']
+                console.log(login)
                 const nickname = user['nickname']
                 const urlDonateForm = user['urlDonateForm']
                 const urlWidget = user['urlWidget']
@@ -43,10 +32,10 @@ window.addEventListener('load', function () {
                 const streamContent = user['streamContent']
                 const channelDescription = user['channelDescription']
                 let info = document.getElementById('info')
-                info.innerHTML = `<li class="info" id="log_in">Логин: ${login}</li>
-                <li class="info" id="nick_name">Никнейм: ${nickname}</li>
-                <li class="info" id="donate">Ссылка на донат: ${urlDonateForm}</li>
-                <li class="info" id="widget">Ссылка на виджет: ${urlWidget}</li>`
+                info.innerHTML = '<li class="info" id="log_in">' + `Логин: ${login}` + '</li>' +
+                '<li class="info" id="nick_name">' + `Никнейм: ${nickname}` + '</li>' +
+                '<li class="info" id="donate">' + `Ссылка на донат: ${urlDonateForm}` + '</li>' +
+                '<li class="info" id="widget">' + `Ссылка на виджет: ${urlWidget}` + '</li>'
                 let about = document.getElementById('aboutUser')
                 let content = document.getElementById('streamContent')
                 let description = document.getElementById('channelDescription')
@@ -64,10 +53,10 @@ window.addEventListener('load', function () {
                             about.textContent = aboutUser
                             content.textContent = streamContent
                             description.textContent = channelDescription
-                        },
-                        function(error) {
-                            alert(error)
                         }
+                        // function(error) {
+                        //     alert(error)
+                        // }
                     )
                 })
             },
