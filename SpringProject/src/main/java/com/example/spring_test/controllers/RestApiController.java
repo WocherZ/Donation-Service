@@ -32,6 +32,13 @@ class CollectionData {
     public Double limitAmount;
 }
 
+class DonationData {
+    public String userNickname;
+    public String text;
+    public Double amount;
+    public String goalName;
+}
+
 @RestController
 @RequestMapping("/api")
 public class RestApiController {
@@ -96,9 +103,17 @@ public class RestApiController {
         return new ResponseEntity<>(collectionService.findCollectionsByUserId(id), HttpStatus.OK);
     }
 
-    @PostMapping("/donate/{key}")
-    public ResponseEntity<?> userDonated(@PathVariable String key, @RequestBody Map<String, String> receivedData) {
-        // ...
+    @PostMapping("/donate/{id}")
+    public ResponseEntity<?> userDonated(@PathVariable Long id, @RequestBody DonationData donationData) {
+        Collection collection = collectionService.findCollectionByName(donationData.goalName, id);
+        User user = userService.findById(id);
+        donationService.createDonation(
+                donationData.userNickname,
+                donationData.text,
+                donationData.amount,
+                collection,
+                user
+        );
         return new ResponseEntity<>(new HashMap<>(), HttpStatus.OK);
     }
 

@@ -30,7 +30,7 @@ function getAmounts(donates) {
 function getMonths(donates) {
     let months = []
     for (let d of donates) {
-        let date = _.slice(d['date'].split(' ')[0].split('.'), 1, 3)
+        let date = _.join(_.slice(d['date'].split(' ')[0].split('.'), 1, 3), '.')
         if (!months.includes(date)) {
             months.push(date)
         }

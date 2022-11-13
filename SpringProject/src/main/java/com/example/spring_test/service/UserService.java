@@ -42,6 +42,7 @@ public class UserService {
         Optional<User> user = userRepository.findById(Math.toIntExact(id));
         if (user.isPresent()) {
             Map<String, String> resultMap = new HashMap<>();
+            resultMap.put("nickname", user.get().getNickname());
             resultMap.put("aboutUser" , user.get().getAboutUser());
             resultMap.put("streamContent", user.get().getStreamContent());
             resultMap.put("channelDescription", user.get().getChannelDescription());

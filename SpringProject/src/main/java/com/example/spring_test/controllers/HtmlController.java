@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.GeneratedValue;
 import java.util.Map;
 
 @Controller
@@ -14,7 +15,7 @@ public class HtmlController {
         return new ModelAndView("home", model);
     }
 
-    @GetMapping("/donation")
+    @GetMapping("/donation/{id}")
     public ModelAndView donation_forms(Map<String, Object> model) {
         // ...
         return new ModelAndView("donation_forms", model);
@@ -53,5 +54,10 @@ public class HtmlController {
     @GetMapping("/out")
     public ModelAndView logout(Map<String, Object> model) {
         return new ModelAndView("logout", model);
+    }
+
+    @GetMapping("/user/{id}")
+    public ModelAndView user(Map<String, Object> model) {
+        return new ModelAndView("user", model);
     }
 }

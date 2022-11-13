@@ -116,7 +116,7 @@ window.addEventListener('load', function () {
                 }
                 let add_goal = document.getElementById('')
                 add_goal.addEventListener('click', function() {
-                    window.location.href = '/add_goal'
+                    window.location.href = `/add_goal`
                 })
             },
             function (error) {
@@ -126,6 +126,6 @@ window.addEventListener('load', function () {
 
     } else {
         console.log("not authenticated")
-        //window.location.href='/home'
+        window.location.href='/home'
     }
 })

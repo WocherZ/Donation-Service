@@ -77,6 +77,6 @@ window.addEventListener('load', function () {
         )
     } else {
         console.log("not authenticated")
-        //window.location.href='/home'
+        window.location.href='/home'
     }
 })

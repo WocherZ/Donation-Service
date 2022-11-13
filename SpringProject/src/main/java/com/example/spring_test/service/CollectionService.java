@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class CollectionService {
@@ -25,5 +26,16 @@ public class CollectionService {
     }
     public List<Collection> findCollectionsByUserId(Long id) {
         return collectionRepository.findAll().stream().filter((collection -> Objects.equals(collection.getUser_id().getId(), id))).toList();
+    }
+
+    public Collection findCollectionByName(String name, Long user_id) {
+        Optional<Collection> coll = collectionRepository.findAll().stream()
+                .filter((collection -> Objects.equals(collection.getName(), name) && Objects.equals(collection.getUser_id().getId(), user_id)))
+                .findFirst();
+        if (coll.isPresent()) {
+            return coll.get();
+        } else {
+            return null;
+        }
     }
 }
